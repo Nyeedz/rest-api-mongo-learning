@@ -27,7 +27,13 @@ app.use((req, res, next) => {
 app.use('/products', productsRoutes)
 app.use('/orders', ordersRoutes)
 
-mongoose.connect('mongodb+srv://nyeedz:' + process.env.MONGO_ATLAS_PW + '@cluster0-xihef.mongodb.net/test?retryWrites=true')
+mongoose.connect('mongodb+srv://nyeedz:' + process.env.MONGO_ATLAS_PW + '@cluster0-xihef.mongodb.net/test?retryWrites=true', (err) => {
+  if (err) {
+    console.log('Não foi possível conectar ao MongoDB (DATA CENTER) ')
+  } else {
+    console.log('DATA CENTER - Conectado')
+  }
+})
 
 app.use((req, res, next) => {
   const error = new Error('Not Found')
