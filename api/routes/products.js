@@ -23,11 +23,12 @@ router.get ('/', (req, res, next) => {
             },
             updateProduct: {
               type: 'PATCH',
+              description: 'Endpoint to update an product',
               url: `http://localhost:3000/products/${doc._id}`,
               body: [
                 {
-                  propName: 'campo a ser mudado',
-                  value: 'valor a ser mudado',
+                  propName: 'field you want to change',
+                  value: 'value you want to change',
                 },
               ],
             },
@@ -41,7 +42,6 @@ router.get ('/', (req, res, next) => {
       res.status (200).json (response);
     })
     .catch (err => {
-      console.log (err);
       res.status (500).json ({
         error: err,
       });
@@ -60,9 +60,8 @@ router.post ('/', (req, res, next) => {
     .select ()
     .save ()
     .then (result => {
-      console.log (result);
       res.status (201).json ({
-        message: 'Produto criado com sucesso !',
+        message: 'Product created successfully !',
         createdProduct: {
           name: result.name,
           price: result.price,
@@ -98,7 +97,7 @@ router.get ('/:productId', (req, res, next) => {
         });
       } else {
         res.status (404).json ({
-          message: 'Nenhum dado encontrado para o ID fornecido',
+          message: 'Product not found',
         });
       }
     })
@@ -121,24 +120,14 @@ router.patch ('/:productId', (req, res, next) => {
     .exec ()
     .then (result => {
       res.status (200).json ({
-        message: 'Produto editado com sucesso!',
+        message: 'Product updated successfully !',
         request: {
           type: 'GET',
           url: `http://localhost:3000/products/${id}`,
         },
-        updateProduct: {
-          type: 'PATCH',
-          url: `http://localhost:3000/products/${id}`,
-          body: [
-            {
-              propName: 'campo a ser mudado',
-              value: 'valor a ser mudado',
-            },
-          ],
-          deleteProduct: {
-            type: 'DELETE',
-            url: `http://localhost:3000/products/${doc._id}`,
-          }
+        deleteProduct: {
+          type: 'DELETE',
+          url: `http://localhost:3000/products/${doc._id}`,
         },
       });
     })
@@ -156,7 +145,7 @@ router.delete ('/:productId', (req, res, next) => {
     .exec ()
     .then (result => {
       res.status (200).json ({
-        message: 'Produto deletado com sucesso!',
+        message: 'Product deleted successfully !',
         request: {
           type: 'POST',
           url: `http://localhost:3000/products`,
@@ -168,7 +157,6 @@ router.delete ('/:productId', (req, res, next) => {
       });
     })
     .catch (err => {
-      console.log (err);
       res.status (500).json ({
         error: err,
       });
